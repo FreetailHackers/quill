@@ -1,6 +1,8 @@
 var path = require('path');
-var nodemailer = require('nodemailer');
-var smtpTransport = require('nodemailer-smtp-transport');
+var request = require('request');
+
+var sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 var templatesDir = path.join(__dirname, '../templates');
 var emailTemplates = require('email-templates');
@@ -12,10 +14,6 @@ var EMAIL_ADDRESS = process.env.EMAIL_ADDRESS;
 var TWITTER_HANDLE = process.env.TWITTER_HANDLE;
 var FACEBOOK_HANDLE = process.env.FACEBOOK_HANDLE;
 
-var EMAIL_HOST = process.env.EMAIL_HOST;
-var EMAIL_USER = process.env.EMAIL_USER;
-var EMAIL_PASS = process.env.EMAIL_PASS;
-var EMAIL_PORT = process.env.EMAIL_PORT;
 var EMAIL_CONTACT = process.env.EMAIL_CONTACT;
 var EMAIL_HEADER_IMAGE = process.env.EMAIL_HEADER_IMAGE;
 if(EMAIL_HEADER_IMAGE.indexOf("https") == -1){
@@ -24,21 +22,8 @@ if(EMAIL_HEADER_IMAGE.indexOf("https") == -1){
 
 var NODE_ENV = process.env.NODE_ENV;
 
-var options = {
-  host: EMAIL_HOST,
-  port: EMAIL_PORT,
-  secure: true,
-  auth: {
-    user: EMAIL_USER,
-    pass: EMAIL_PASS
-  }
-};
-
-var transporter = nodemailer.createTransport(smtpTransport(options));
-
 var controller = {};
 
-controller.transporter = transporter;
 
 function sendOne(templateName, options, data, callback){
 
@@ -49,6 +34,28 @@ function sendOne(templateName, options, data, callback){
 
   emailTemplates(templatesDir, function(err, template){
     if (err) {
+        request
+            .post(process.env.SLACK_HOOK,
+                {
+                    form: {
+                        payload: JSON.stringify({
+                            "text":
+                            "``` \n" +
+                            "Data: \n " +
+                            JSON.stringify(data, null, 2) +
+                            "\n ------------------------------------ \n" +
+                            "\nError:\n" +
+                            JSON.stringify(err, null, 2) +
+                            "``` \n"
+                        })
+                    }
+                },
+                function (error, response, body) {
+                    return response.status(500).send({
+                        message: "Your error has been recorded, we'll get right on it!"
+                    });
+                }
+            );
       return callback(err);
     }
 
@@ -62,17 +69,20 @@ function sendOne(templateName, options, data, callback){
         return callback(err);
       }
 
-      transporter.sendMail({
-        from: EMAIL_CONTACT,
+      var msg = {
         to: options.to,
+        from: EMAIL_CONTACT,
         subject: options.subject,
+        text: text,
         html: html,
-        text: text
-      }, function(err, info){
-        if(callback){
-          callback(err, info);
+      };
+
+      sgMail.send(msg, (err, result) => {
+        if (err) {
+          return callback(err)
         }
       });
+
     });
   });
 }
