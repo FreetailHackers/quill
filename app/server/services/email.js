@@ -204,4 +204,40 @@ controller.sendPasswordChangedEmail = function(email, callback){
 
 };
 
+/**
+ * Send an acceptance email.
+ * @param  {[type]}   email    [description]
+ * @param  {Function} callback [description]
+ */
+controller.sendAcceptanceEmail = function(email) {
+
+  var options = {
+    to: email,
+    subject: "["+HACKATHON_NAME+"] - You're going to Wholesome Hacks!!!"
+  };
+
+  var locals = {
+    title: 'Accepted into Wholesome Hacks',
+    subtitle: '',
+    description: "Congrats on your acceptance into Wholesome Hacks this March 31st. We can't wait" +
+                 "to see you and your creativity!!"
+  };
+
+  /**
+   * Eamil-verify takes a few template values:
+   * {
+   *   verifyUrl: the url that the user must visit to verify their account
+   * }
+   */
+  sendOne('email-link-action', options, locals, function(err, info){
+    if (err){
+      console.log(err);
+    }
+    if (info){
+      console.log(info.message);
+    }
+  });
+
+};
+
 module.exports = controller;
