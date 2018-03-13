@@ -117,17 +117,12 @@ angular.module('reg')
               closeOnConfirm: false
               }, function(){
 
-                UserService
-                  .admitUser(user._id)
-                  .success(function(user){
-                    $scope.users[index] = user;
-                    swal("Accepted", user.profile.name + ' has been admitted.', "success");
-                  });
-
+                UserService.admitUser(user._id);
+                $scope.users[index] = user;
+                swal("Accepted", user.profile.name + ' has been admitted.', "success");
               });
 
-          });
-
+            });
       };
 
       function formatTime(time){
