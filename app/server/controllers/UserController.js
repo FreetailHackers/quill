@@ -644,13 +644,12 @@ UserController.admitUser = function(id, user, callback){
         }
       }, {
         new: true
-      }, function(err, user){
-        if (err || !user){
-          return callback(err);
-        }
-
-        Mailer.sendAcceptanceEmail(user.email, callback);
-      });
+      }).exec(function(err, user){
+                if (err || !user){
+                  return callback(err);
+                }
+                Mailer.sendAcceptanceEmail(user.email, callback);
+              });
       });
   };
 

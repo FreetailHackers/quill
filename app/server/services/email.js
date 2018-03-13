@@ -209,7 +209,7 @@ controller.sendPasswordChangedEmail = function(email, callback){
  * @param  {[type]}   email    [description]
  * @param  {Function} callback [description]
  */
-controller.sendAcceptanceEmail = function(email) {
+controller.sendAcceptanceEmail = function(email, callback) {
 
   var options = {
     to: email,
@@ -235,6 +235,9 @@ controller.sendAcceptanceEmail = function(email) {
     }
     if (info){
       console.log(info.message);
+    }
+    if (callback) {
+      callback(err, info);
     }
   });
 
