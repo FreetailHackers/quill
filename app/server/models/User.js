@@ -5,7 +5,6 @@ var mongoose   = require('mongoose'),
     JWT_SECRET = process.env.JWT_SECRET;
 
 var profile = {
-
   // Basic info
   name: {
     type: String,
@@ -25,17 +24,29 @@ var profile = {
     max: 150,
   },
 
+  eid: {
+    type: String,
+    min: 1,
+    max: 150,
+  },
+
   graduationYear: {
     type: String,
     enum: {
-      values: '2016 2017 2018 2019'.split(' '),
+      values: '2018 2019 2020 2021'.split(' ')
     }
+  },
+
+  firstHackathon : {
+    type: String,
+    min: 1,
+    max: 150,
   },
 
   description: {
     type: String,
     min: 0,
-    max: 300
+    max: 300,
   },
 
   essay: {
@@ -43,6 +54,8 @@ var profile = {
     min: 0,
     max: 1500
   },
+
+  socialMedia: [String],
 
   // Optional info for demographics
   gender: {
@@ -333,7 +346,7 @@ schema.statics.validateProfile = function(profile, cb){
     profile.name.length > 0 &&
     profile.adult &&
     profile.school.length > 0 &&
-    ['2016', '2017', '2018', '2019'].indexOf(profile.graduationYear) > -1 &&
+    ['2018', '2019', '2020', '2021'].indexOf(profile.graduationYear) > -1 &&
     ['M', 'F', 'O', 'N'].indexOf(profile.gender) > -1
     ));
 };
