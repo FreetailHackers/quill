@@ -20,6 +20,25 @@ angular.module('reg')
 
       $scope.fileName = user._id + "_" + user.profile.name.split(" ").join("_");
 
+      var platforms = {
+        'Mobile': false,
+        'Web Dev': false,
+        'Game Dev': false,
+        'Hardware': false,
+        'VR/AR': false,
+        'ML on a Blockchain in the Cloud': false
+      };
+
+      if (user.confirmation.platforms) {
+        user.confirmation.platforms.forEach(function(platform) {
+            if (platform in platforms) {
+                platforms[platform] = true;
+            }
+        });
+      }
+
+      $scope.platforms = platforms;
+
       // -------------------------------
       // All this just for dietary restriction checkboxes fml
 
@@ -54,6 +73,15 @@ angular.module('reg')
         });
         confirmation.dietaryRestrictions = drs;
 
+        // Get the dietary restrictions as an array
+        var ps = [];
+        Object.keys($scope.platforms).forEach(function(key){
+          if ($scope.platforms[key]){
+            ps.push(key);
+          }
+        });
+        confirmation.platforms = ps;
+
         UserService
           .updateConfirmation(user._id, confirmation)
           .success(function(data){
@@ -74,6 +102,7 @@ angular.module('reg')
       function _setupForm(){
         // Semantic-UI form validation
         $('.ui.form').form({
+          inline: true,
           fields: {
             shirt: {
               identifier: 'shirt',
@@ -93,21 +122,30 @@ angular.module('reg')
                 }
               ]
             },
-            signatureLiability: {
-              identifier: 'signatureLiabilityWaiver',
+            contactName: {
+              identifier: 'contactName',
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please type your digital signature.'
+                  prompt: 'Please enter your emergency contact\'s name.'
                 }
               ]
             },
-            signaturePhotoRelease: {
-              identifier: 'signaturePhotoRelease',
+            contactPhone: {
+              identifier: 'contactPhone',
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please type your digital signature.'
+                  prompt: 'Please enter your emergency contact\'s phone number.'
+                }
+              ]
+            },
+            contactRelationship: {
+              identifier: 'contactRelationship',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your relationship with your emergency contact.'
                 }
               ]
             },
@@ -127,6 +165,9 @@ angular.module('reg')
       $scope.submitForm = function(){
         if ($('.ui.form').form('is valid')){
           _updateUser();
+        }
+        else {
+            sweetAlert("Uh oh!", "Please Fill The Required Fields", "error");
         }
       };
 
