@@ -1,5 +1,6 @@
 var path = require('path');
 var request = require('request');
+var moment = require('moment');
 
 var sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -220,7 +221,11 @@ controller.sendAcceptanceEmail = function(email, callback) {
     title: 'Accepted into Wholesome Hacks',
     subtitle: '',
     description: "Congrats on your acceptance into Wholesome Hacks this March 31st. We can't wait" +
-                 "to see you and your creativity!!"
+                 "to see you and your creativity!! Please confirm your acceptance before " +
+                 moment(new Date(user.status.confirmBy)).format('dddd, MMMM Do YYYY, h:mm a') +
+                 " by logging into your account."
+    actionUrl: ROOT_URL,
+    actionName: "Go to Your Dashboard"
   };
 
   /**

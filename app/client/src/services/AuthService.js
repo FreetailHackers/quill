@@ -103,13 +103,6 @@ angular.module('reg')
           });
       };
 
-      authService.sendAcceptanceEmail = function(email){
-        return $http
-          .post('/auth/accepted', {
-            email: email
-          });
-      };
-
       authService.resetPassword = function(token, pass, onSuccess, onFailure){
         return $http
           .post('/auth/reset/password', {

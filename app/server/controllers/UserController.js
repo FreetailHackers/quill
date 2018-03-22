@@ -663,9 +663,21 @@ UserController.admitUser = function(id, user, callback){
       }, {
         new: true
       },
-      callback);  
+      callback);
+
+      User
+        .findById(id)
+        .exec(function(err, user){
+        if (err || !user){
+          return callback(err);
+        }
+      
+        Mailer.sendAcceptanceEmail(user, callback);
     });
-}
+
+  });
+
+};
 
 /**
  * [ADMIN ONLY]
