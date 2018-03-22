@@ -4,8 +4,7 @@ angular.module('reg')
     '$state',
     '$stateParams',
     'UserService',
-    'AuthService'
-    function($scope, $state, $stateParams, UserService, AuthService){
+    function($scope, $state, $stateParams, UserService){
 
       $scope.pages = [];
       $scope.users = [];
@@ -123,7 +122,6 @@ angular.module('reg')
                   .success(function(user) {
                     $scope.users[index] = user;
                     swal("Accepted", user.profile.name + ' has been admitted.', "success");
-                    AuthService.sendAcceptanceEmail(user.email);
                 });
 
               });
