@@ -98,6 +98,10 @@ var confirmation = {
   },
   receipt: String,
 
+  contactName: String,
+  contactPhone: String,
+  contactRelationship: String,
+
   hostNeededFri: Boolean,
   hostNeededSat: Boolean,
   genderNeutral: Boolean,
@@ -105,6 +109,9 @@ var confirmation = {
   smokingFriendly: Boolean,
   hostNotes: String,
 
+  platforms: [String],
+  workshops: String,
+  help: String,
   notes: String,
 
   signatureLiability: String,
