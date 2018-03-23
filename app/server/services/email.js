@@ -1,5 +1,6 @@
 var path = require('path');
 var request = require('request');
+var moment = require('moment');
 
 var sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -198,6 +199,49 @@ controller.sendPasswordChangedEmail = function(email, callback){
       console.log(info.message);
     }
     if (callback){
+      callback(err, info);
+    }
+  });
+
+};
+
+/**
+ * Send an acceptance email.
+ * @param  {[type]}   email    [description]
+ * @param  {Function} callback [description]
+ */
+controller.sendAcceptanceEmail = function(email, callback) {
+
+  var options = {
+    to: email,
+    subject: "["+HACKATHON_NAME+"] - You're going to Wholesome Hacks!!!"
+  };
+
+  var locals = {
+    title: 'Accepted into Wholesome Hacks',
+    subtitle: '',
+    description: "Congrats on your acceptance into Wholesome Hacks this March 31st. We can't wait" +
+                 "to see you and your creativity!! Please confirm your acceptance before " +
+                 moment(new Date(user.status.confirmBy)).format('dddd, MMMM Do YYYY, h:mm a') +
+                 " by logging into your account."
+    actionUrl: ROOT_URL,
+    actionName: "Go to Your Dashboard"
+  };
+
+  /**
+   * Eamil-verify takes a few template values:
+   * {
+   *   verifyUrl: the url that the user must visit to verify their account
+   * }
+   */
+  sendOne('email-link-action', options, locals, function(err, info){
+    if (err){
+      console.log(err);
+    }
+    if (info){
+      console.log(info.message);
+    }
+    if (callback) {
       callback(err, info);
     }
   });

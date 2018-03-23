@@ -539,6 +539,24 @@ UserController.sendPasswordResetEmail = function(email, callback){
 };
 
 /**
+ * Acceptance into hackathon email
+ * @param  {[type]}   email    [description]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
+UserController.sendAcceptanceEmail = function(email, callback){
+  User
+    .findOneByEmail(email)
+    .exec(function(err, user){
+      if (err || !user){
+        return callback(err);
+      }
+
+      Mailer.sendAcceptanceEmail(email, callback);
+    });
+};
+
+/**
  * UNUSED
  *
  * Change a user's password, given their old password.
@@ -646,7 +664,19 @@ UserController.admitUser = function(id, user, callback){
         new: true
       },
       callback);
+
+      User
+        .findById(id)
+        .exec(function(err, user){
+        if (err || !user){
+          return callback(err);
+        }
+      
+        Mailer.sendAcceptanceEmail(user, callback);
+    });
+
   });
+
 };
 
 /**
