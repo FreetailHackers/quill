@@ -210,20 +210,22 @@ controller.sendPasswordChangedEmail = function(email, callback){
  * @param  {[type]}   email    [description]
  * @param  {Function} callback [description]
  */
-controller.sendAcceptanceEmail = function(email, callback) {
+controller.sendAcceptanceEmail = function(email, confirmBy, callback) {
 
   var options = {
     to: email,
-    subject: "["+HACKATHON_NAME+"] - You're going to Wholesome Hacks!!!"
+    subject: "["+HACKATHON_NAME+"] - "
   };
 
   var locals = {
-    title: 'Accepted into Wholesome Hacks',
+    title: 'Congratulations!',
     subtitle: '',
-    description: "Congrats on your acceptance into Wholesome Hacks this March 31st. We can't wait" +
-                 "to see you and your creativity!! Please confirm your acceptance before " +
-                 moment(new Date(user.status.confirmBy)).format('dddd, MMMM Do YYYY, h:mm a') +
-                 " by logging into your account."
+    description: "Woohoo! You have been accepted to " + HACKATHON_NAME +  ". We can't wait to see you and you creativity. " +
+    "Before we do that,   Please confirm your acceptance " +
+    "<b> before " +
+                 moment(new Date(confirmBy)).format('dddd, MMMM Do YYYY, h:mm a') +
+                 "</b> " +
+    "through our dashboard.",
     actionUrl: ROOT_URL,
     actionName: "Go to Your Dashboard"
   };
