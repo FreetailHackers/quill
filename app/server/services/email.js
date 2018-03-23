@@ -214,18 +214,14 @@ controller.sendAcceptanceEmail = function(email, confirmBy, callback) {
 
   var options = {
     to: email,
-    subject: "["+HACKATHON_NAME+"] - "
+    subject: "["+HACKATHON_NAME+"] - Application Update"
   };
 
   var locals = {
     title: 'Congratulations!',
     subtitle: '',
-    description: "Woohoo! You have been accepted to " + HACKATHON_NAME +  ". We can't wait to see you and you creativity. " +
-    "Before we do that,   Please confirm your acceptance " +
-    "<b> before " +
-                 moment(new Date(confirmBy)).format('dddd, MMMM Do YYYY, h:mm a') +
-                 "</b> " +
-    "through our dashboard.",
+    description: 'Woohoo! You have been accepted to ' + HACKATHON_NAME +  '. We can\'t wait to see you get hacking!',
+    confirmDeadline: moment(new Date(confirmBy)).format('dddd, MMMM Do YYYY, h:mm a'),
     actionUrl: ROOT_URL,
     actionName: "Go to Your Dashboard"
   };
@@ -236,7 +232,7 @@ controller.sendAcceptanceEmail = function(email, confirmBy, callback) {
    *   verifyUrl: the url that the user must visit to verify their account
    * }
    */
-  sendOne('email-link-action', options, locals, function(err, info){
+  sendOne('email-acceptance', options, locals, function(err, info){
     if (err){
       console.log(err);
     }
