@@ -7,7 +7,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 var templatesDir = path.join(__dirname, '../templates');
 var emailTemplates = require('email-templates');
-var qr_generator = require('qr-generator');
+var qr_generator = require('./qr-generator.js');
 
 var ROOT_URL = process.env.ROOT_URL;
 
@@ -267,10 +267,10 @@ controller.sendConfirmationEmail = function(user, callback) {
   var qr_image = Buffer.from(qr_string).toString('base64');
 
   var locals = {
-    title: 'Confirmed for ' + HACKATHON_NAME '!!',
+    title: 'Confirmed for ' + HACKATHON_NAME + '!!',
     subtitle: '',
     description: "Woohoo! You have confirmed your spot for " + HACKATHON_NAME + 
-    "!! Below is the QR Code you will need to present at the front door." 
+    "!! Below is the QR Code you will need to present at the front door.",  
     qr_image: qr_image
   };
 
