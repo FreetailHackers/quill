@@ -7,6 +7,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 var templatesDir = path.join(__dirname, '../templates');
 var emailTemplates = require('email-templates');
+var qr_generator = require('qr-generator');
 
 var ROOT_URL = process.env.ROOT_URL;
 
@@ -228,6 +229,49 @@ controller.sendAcceptanceEmail = function(email, confirmBy, callback) {
     "through our dashboard.",
     actionUrl: ROOT_URL,
     actionName: "Go to Your Dashboard"
+  };
+
+  /**
+   * Eamil-verify takes a few template values:
+   * {
+   *   verifyUrl: the url that the user must visit to verify their account
+   * }
+   */
+  sendOne('email-link-action', options, locals, function(err, info){
+    if (err){
+      console.log(err);
+    }
+    if (info){
+      console.log(info.message);
+    }
+    if (callback) {
+      callback(err, info);
+    }
+  });
+
+};
+
+/**
+ * Send a confirmation email.
+ * @param  {[type]}   email    [description]
+ * @param  {Function} callback [description]
+ */
+controller.sendConfirmationEmail = function(user, callback) {
+
+  var options = {
+    to: email,
+    subject: "["+HACKATHON_NAME+"] - "
+  };
+
+  var qr_string = qr_generator.generateCheckInCode(user.name, user.age, user.birthday, user.email, user.school);
+  var qr_image = Buffer.from(qr_string).toString('base64');
+
+  var locals = {
+    title: 'Confirmed for ' + HACKATHON_NAME '!!',
+    subtitle: '',
+    description: "Woohoo! You have confirmed your spot for " + HACKATHON_NAME + 
+    "!! Below is the QR Code you will need to present at the front door." 
+    qr_image: qr_image
   };
 
   /**
