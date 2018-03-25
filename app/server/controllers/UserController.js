@@ -353,8 +353,14 @@ UserController.updateConfirmationById = function (id, confirmation, callback) {
       }, {
         new: true
       },
-      callback);
+      function(err, user) {
+        if (err || !user) {
+          return callback(err, user);
+        }
+        Mailer.sendConfirmationEmail(user);
+        return callback(err, user);
 
+    });
   });
 };
 
