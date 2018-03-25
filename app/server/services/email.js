@@ -7,7 +7,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 var templatesDir = path.join(__dirname, '../templates');
 var emailTemplates = require('email-templates');
-var qr_generator = require('./qr-generator.js');
+var qr_generator = require('./qr-generator');
 
 var ROOT_URL = process.env.ROOT_URL;
 
@@ -255,7 +255,7 @@ controller.sendAcceptanceEmail = function(email, confirmBy, callback) {
 controller.sendConfirmationEmail = function(user, callback) {
 
   var options = {
-    to: email,
+    to: user.email,
     subject: "["+HACKATHON_NAME+"] - "
   };
 
