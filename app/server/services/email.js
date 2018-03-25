@@ -259,15 +259,20 @@ controller.sendConfirmationEmail = function(user, callback) {
     subject: "["+HACKATHON_NAME+"] - "
   };
 
-  var qr_string = qr_generator.generateCheckInCode(user.name, user.age, user.birthday, user.email, user.school);
-  var qr_image = Buffer.from(qr_string).toString('base64');
+  var payload = {
+        "name": user.name,
+        "email": user.email,
+        "age": user.age,
+        "birthday": user.birthday,
+        "school": user.school
+  }
 
   var locals = {
     title: 'Confirmed for ' + HACKATHON_NAME + '!!',
     subtitle: '',
     description: "Woohoo! You have confirmed your spot for " + HACKATHON_NAME + 
     "!! Below is the QR Code you will need to present at the front door.",  
-    qr_image: qr_image
+    qr_payload: JSON.stringify(payload)
   };
 
   /**
