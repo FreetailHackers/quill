@@ -179,6 +179,44 @@
 
           <div class="divided title">Legal</div>
 
+          <p>
+            By continuing to complete this form, you agree that your electronic signature is the legally binding equivalent to your handwritten signature. Whenever you execute an electronic signature, it has the same validity and meaning as your handwritten signature. You will not, at any time in the future, repudiate the meaning of your electronic signature or claim that your electronic signature is not legally binding.
+          </p>
+
+          <div class="field">
+            <label>Release and Indemnification Agreement</label>
+            <p>
+                <a target="_blank" href="/forms/liability">Release and Indemnification Agreement</a>
+            </p>
+            <p>
+                For legal reason, we ask you to read and accept the terms of our liability waiver. Again, as mentioned in the application process - you <strong> must </strong> be 18 years or older by the day of the event, or <strong> we will refuse you admission at the door. We will be checking ID. </strong>
+            </p>
+            <p>
+                By writing my name below, I affirm that I have read and accepted the terms of the liability waiver above, and will be 18 years or older at the time of the event.
+            </p>
+            <input type="text"
+                   name="signatureLiabilityWaiver"
+                   placeholder="Your Full Legal Name"
+                   ng-model="user.confirmation.signatureLiability">
+          </div>
+
+          <div class="field">
+            <label>Photo Release</label>
+            <p>
+                <a target="_blank" href="/forms/photoRelease">Photograph Release Form</a>
+            </p>
+            <p>
+                Signing this photo release means if we take photos or photos of you, we can share it with the world.
+            </p>
+            <p>
+                By writing my name below, I affirm that I have read and accepted the terms of the photo release above.             
+            </p>
+            <input type="text"
+                   name="signaturePhotoRelease"
+                   placeholder="Your Full Legal Name"
+                   ng-model="user.confirmation.signaturePhotoRelease">
+          </div>
+
           <div class="field">
             <label> Code of Conduct </label>
             <p>
