@@ -19,6 +19,7 @@ body, #bodyTable, #bodyCell{height:100% !important; margin:0; padding:0; width:1
 
 #bodyCell{padding:20px;}
 #templateContainer{width:600px;}
+#qr-code{max-width: 10em}
 
 /* ========== Page Styles ========== */
 

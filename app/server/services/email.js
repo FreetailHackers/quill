@@ -256,23 +256,13 @@ controller.sendConfirmationEmail = function(user, callback) {
 
   var options = {
     to: user.email,
-    subject: "["+HACKATHON_NAME+"] - "
+    subject: "["+HACKATHON_NAME+"] - Attendance Confirmation"
   };
 
-  var payload = {
-        "name": user.name,
-        "email": user.email,
-        "age": user.age,
-        "birthday": user.birthday,
-        "school": user.school
-  }
-
   var locals = {
-    title: 'Confirmed for ' + HACKATHON_NAME + '!!',
+    title: 'You\'re all set for ' + HACKATHON_NAME + '!',
     subtitle: '',
-    description: "Woohoo! You have confirmed your spot for " + HACKATHON_NAME + 
-    "!! Below is the QR Code you will need to present at the front door.",  
-    qr_payload: JSON.stringify(payload)
+    qr_payload: encodeURIComponent(qr_generator.generateCheckInPayload(user))
   };
 
   /**
