@@ -251,6 +251,17 @@
           </div>
 
           <div class="field">
+            <label> If accepted, will WholesomeHacks be your first hackathon? </label>
+            <select
+              name="firstHackathon"
+              ng-model="user.confirmation.firstHackathon">
+              <option value="">Select an option</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+
+          <div class="field">
               <label> What platforms do you like to hack on? </label>
           </div>
 
@@ -269,7 +280,7 @@
                 <option value=""> Workshop </option>
                 <option value="MobileApps"> Mobile Apps </option>
                 <option value="APIs"> How to Use APIs </option>
-                <option value="Hackathon"> Hackathon 101: How to survive an invention marathon </option>
+                <option value="Hackathon101"> Hackathon 101: How to survive an invention marathon </option>
                 <option value="Blockchain"> How to build a Dapp using a Blockchain </option>
               </select>
           </div>

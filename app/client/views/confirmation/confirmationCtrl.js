@@ -149,12 +149,39 @@ angular.module('reg')
                 }
               ]
             },
+            liability: {
+              identifier: 'signatureLiabilityWaiver',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please type your digital signature.'
+                }
+              ]
+            },
+            photoRelease: {
+              identifier: 'signaturePhotoRelease',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please type your digital signature.'
+                }
+              ]
+            },
             signatureCodeOfConduct: {
               identifier: 'signatureCodeOfConduct',
               rules: [
                 {
                   type: 'empty',
                   prompt: 'Please type your digital signature.'
+                }
+              ]
+            },
+            firstTimeHacker: {
+              identifier: 'firstHackathon',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please indicate if you\'ve ever gone to a hackathon before.'
                 }
               ]
             },

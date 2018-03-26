@@ -37,11 +37,7 @@ var profile = {
     }
   },
 
-  firstHackathon : {
-    type: String,
-    min: 1,
-    max: 150,
-  },
+  
 
   description: {
     type: String,
@@ -109,6 +105,7 @@ var confirmation = {
   smokingFriendly: Boolean,
   hostNotes: String,
 
+  firstHackathon: String,
   platforms: [String],
   workshops: String,
   help: String,
