@@ -7,6 +7,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 var templatesDir = path.join(__dirname, '../templates');
 var emailTemplates = require('email-templates');
+var qr_generator = require('./qr-generator');
 
 var ROOT_URL = process.env.ROOT_URL;
 
@@ -233,6 +234,44 @@ controller.sendAcceptanceEmail = function(email, confirmBy, callback) {
    * }
    */
   sendOne('email-acceptance', options, locals, function(err, info){
+    if (err){
+      console.log(err);
+    }
+    if (info){
+      console.log(info.message);
+    }
+    if (callback) {
+      callback(err, info);
+    }
+  });
+
+};
+
+/**
+ * Send a confirmation email.
+ * @param  {[type]}   email    [description]
+ * @param  {Function} callback [description]
+ */
+controller.sendConfirmationEmail = function(user, callback) {
+
+  var options = {
+    to: user.email,
+    subject: "["+HACKATHON_NAME+"] - Attendance Confirmation"
+  };
+
+  var locals = {
+    title: 'You\'re all set for ' + HACKATHON_NAME + '!',
+    subtitle: '',
+    qr_payload: encodeURIComponent(qr_generator.generateCheckInPayload(user))
+  };
+
+  /**
+   * Eamil-verify takes a few template values:
+   * {
+   *   verifyUrl: the url that the user must visit to verify their account
+   * }
+   */
+  sendOne('email-confirmation', options, locals, function(err, info){
     if (err){
       console.log(err);
     }
