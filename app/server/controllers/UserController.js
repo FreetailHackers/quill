@@ -548,6 +548,30 @@ UserController.updateProfileById = function (id, profile, callback) {
  * @param  {Object}   profile  Profile object
  * @param  {Function} callback Callback with args (err, user)
  */
+UserController.update = function (id, profile, callback) {
+  // Validate the user profile, and mark the user as profile completed
+  // when successful.
+    User.findOneAndUpdate({
+      _id: id,
+    },
+      {
+        $set: {
+          'profile': profile
+        }
+      },
+      {
+        new: true
+      },
+      callback);
+};
+
+/**
+ * Update a user's profile object, given an id and a profile.
+ *
+ * @param  {String}   id       Id of the user
+ * @param  {Object}   profile  Profile object
+ * @param  {Function} callback Callback with args (err, user)
+ */
 UserController.updateResumeById = function (id, resume, callback) {
   s3.uploadResume(resume, util.format('%s.pdf', id), callback);
 };

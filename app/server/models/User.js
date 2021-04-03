@@ -55,9 +55,9 @@ var profile = {
   major: String,
   standing: {
     type: String,
-    enum : {
-      values: 'F P J S M D'.split(' ')
-    }
+    // enum : {
+    //   values: 'F P J S M D'.split(' ')
+    // }
   },
   graduationTime: {
     type: String,
@@ -85,6 +85,9 @@ var profile = {
     enum : {
         values: 'O I N'.split(' ')
     }
+  },
+  experience: {
+    type: String,
   },
   essay: {
     type: String,

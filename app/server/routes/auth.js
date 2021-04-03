@@ -179,6 +179,23 @@ module.exports = function(router){
       });
     });
 
+
+    /*
+      Update a user's profile
+    */
+    router.post("/update", 
+      function(req, res){
+        var id = req.body.id;
+        var profile = req.body.profile;
+
+        UserController.update(id, profile, function(err, user) {
+          if (err || !user) {
+            return res.status(400).send(err);
+          }
+          return res.json(user);
+        });
+      });
+
     /**
      * Create an auth token that can be passed into the discord bot to make sure that people
      * in the server are actually in attendance at HackTX
