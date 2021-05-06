@@ -162,13 +162,28 @@ module.exports = function(router) {
     }
   });
 
+  /*
+  Return a random user
+  */
+  router.get("/showRandom", function (req, res) {
+    var id = req.query.id;
+    UserController.showRandom(id, defaultResponse(req, res));
+  });
+
+  /*
+  Returns all users
+  */
+  router.get('/showAllUsers', function (req, res) {
+    UserController.getAllUsers(defaultResponse(req, res));
+  });
+
       /**
    * [ADMIN ONLY]
    *
    * GET - Get all sponsors, or a page at a time.
    * ex. Paginate with ?page=0&size=100
    */
-  router.get('/sponsors', isAdmin, function(req, res){
+  router.get('/sponsors', isAdmin, function(req, res) {
     var query = req.query;
     if (query.page && query.size){
       UserController.getSponsorPage(query, defaultResponse(req, res));
@@ -204,6 +219,22 @@ module.exports = function(router) {
 
     UserController.updateProfileById(id, profile , defaultResponse(req, res));
   });
+
+  /*
+  Update a user's profile
+  */
+  router.post("/update", function (req, res) {
+      var id = req.body.id;
+      var profile = req.body.profile;
+
+      UserController.update(id, profile, function (err, user) {
+        if (err || !user) {
+          return res.status(400).send(err);
+        }
+        return res.json(user);
+      });
+    });
+    
 
   router.get('/users/:id/resume', function(req, res) {
     var id = req.params.id;

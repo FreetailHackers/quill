@@ -253,6 +253,18 @@ UserController.getAll = function (callback) {
   User.find({}, callback);
 };
 
+UserController.getAllUsers = function (callback) {
+  User.find({}).exec(function(err, users) {
+    userProfiles = [];
+    for(var i = 0; i < users.length; i++) {
+      if(!(users[i]['admin'])) {
+        userProfiles.push(users[i]['profile']);
+      }
+    }
+    return callback(null, userProfiles);
+  });
+};
+
 /**
  * Get a page of users.
  * @param  {[type]}   page     page number
@@ -543,6 +555,8 @@ UserController.updateProfileById = function (id, profile, callback) {
 
 /**
  * Update a user's profile object, given an id and a profile.
+ * Edit: Just made one for Edit.js because I was lazy and didn't want to 
+ * mess with the already existing method.
  *
  * @param  {String}   id       Id of the user
  * @param  {Object}   profile  Profile object
@@ -564,6 +578,13 @@ UserController.update = function (id, profile, callback) {
       },
       callback);
 };
+
+UserController.showRandom = function (id, callback) {
+  User.find({ admin: false, _id : { $ne : id}}, function(err, users) {
+    user = users[Math.floor(Math.random() * users.length)];
+    return callback(null, user);
+  });
+}
 
 /**
  * Update a user's profile object, given an id and a profile.

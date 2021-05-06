@@ -53,7 +53,7 @@ var profile = {
     max: 150,
   },
   major: String,
-  standing: {
+  class: {
     type: String,
     // enum : {
     //   values: 'F P J S M D'.split(' ')
@@ -94,7 +94,12 @@ var profile = {
     min: 0,
     max: 1500
   },
-  description: {
+  intro: {
+    type: String,
+    min: 0,
+    max: 300,
+  },
+  github: {
     type: String,
     min: 0,
     max: 300,
