@@ -590,14 +590,20 @@ module.exports = function(router) {
             }
             else {
               // TODO: Get actual profile picture instead of cute penguin
-              res({
-                userName: user.profile.name ? user.profile.name : "",
-                userProfilePirctureUrl : "https://i.pinimg.com/736x/23/ff/2a/23ff2aacb6b4973b10ebab987837dbad.jpg"
-              });
+              console.log(user)
+              if(user === null){
+                res.send({
+                  message: "Users not found"
+                });
+              }else{
+                res({
+                  userName: user.profile.name ? user.profile.name : "",
+                  userProfilePirctureUrl : "https://i.pinimg.com/736x/23/ff/2a/23ff2aacb6b4973b10ebab987837dbad.jpg"
+                });
+              }
             }
           });
         })
-
      }
 
      const getAllData = async () => {
